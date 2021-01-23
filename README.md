@@ -1,3 +1,5 @@
+# raspberry pik3s
+
 ## overview
 
 with the announcement of the RaspberryPi-4B, i decided that it would be an *inexpensive* and fun way to learn Kubernetes by building a ~~four~~eight node cluster, with Rancher's k3s, hence *raspberry pik3s* or [*rpik3s*](https://github.com/joshuaejs/rpik3s`). [octopik3s.io](https://octopik3s.io) was registered as a place to show graphs, logs, workloads, and whatnot.
@@ -7,16 +9,14 @@ with the announcement of the RaspberryPi-4B, i decided that it would be an *inex
 - learn RaspberryPi
 - learn some systems/hardware C programming
 - learn Kubernetes
-- create a home 'cluster', automate it, and 
+- create a home 'cluster', automate it, and
   - learn Terraform and Go
   - improve Python and Ansible
 - create pretty graphs with Zabbix, Promethues, Netauto, and Grafana
 -
--  
 -
-- profit? (i am afterall subject to the whims of capitalism)
-- ...
-- perhaps it will help me to *try and take over the world!* with some cartoon mice
+-
+- profit?
 
 ### hardware
 
@@ -50,4 +50,4 @@ etcd and calico were chosen because of the cross-over with work. getting well ah
 - Lightweight Kubernetes [k3s](https://k3s.io/)
 - [etcd](https://etcd.io/)
 - *maybeprobably* [Calico](https://www.projectcalico.org/)
-- Envoy? Istio? 
+- Envoy? Istio?

@@ -68,7 +68,7 @@ ubuntu@ubuntu:~$ sudo vi /boot/firmware/nobtcmd.txt
 
 - tasks
   - [disable hdmi]()
-  - [disable swap](https://raspberrypi.stackexchange.com/questions/84390/how-to-permanently-disable-swap-on-raspbian-stretch-lite)
+  - ~~[disable swap](https://raspberrypi.stackexchange.com/questions/84390/how-to-permanently-disable-swap-on-raspbian-stretch-lite)~~
   - ensure cgroup
 
 TODO as of 20200206
@@ -84,7 +84,8 @@ sudo: /usr/bin/tvservice: command not found
 /usr/bin/tvservice -o
 ```
 
-TODO dphys- 
+TODO dphys-
+
 ```swap.yaml
 sudo dphys-swapfile swapoff
 sudo dphys-swapfile uninstall

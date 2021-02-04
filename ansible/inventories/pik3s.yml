@@ -1,0 +1,35 @@
+---
+pik3s:
+  hosts:
+    rpi01:
+      # ansible_host: 192.168.50.193
+      pik3s_controller: true
+      pik3s_worker: false
+    rpi02:
+      # ansible_host: 192.168.50.194
+      pik3s_controller: true
+      pik3s_worker: false
+    rpi03:
+      # ansible_host: 192.168.50.195
+      pik3s_controller: true
+      pik3s_worker: false
+    rpi04:
+      #ansible_host: 192.168.50.196
+      pik3s_controller: false
+      pik3s_worker: true
+    rpi05:
+      # ansible_host: 192.168.50.197
+      pik3s_controller: false
+      pik3s_worker: true
+    rpi06:
+      # ansible_host: 192.168.50.198
+      pik3s_controller: false
+      pik3s_worker: true
+    rpi07:
+      # ansible_host: 192.168.50.199
+      pik3s_controller: false
+      pik3s_worker: true
+    rpi08:
+      #ansible_host: 192.168.50.200
+      pik3s_controller: false
+      pik3s_worker: true

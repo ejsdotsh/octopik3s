@@ -1,0 +1,47 @@
+---
+- name: enable cgroups and update boot cmdline
+  lineinfile:
+    path: /boot/firmware/cmdline.txt
+    regexp: '(^.*)(?!cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1)(.*$)'
+    line: 'dwc_otg.lpm_enable=0 console=ttyS0,115200 console=tty1 root=LABEL=writable rootfstype=ext4 elevator=deadline rootwait fixrtc cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1'
+    backrefs: yes
+    state: present
+  register: cgroup_enabled
+
+- name: update boot config
+  copy:
+    src: "../files/pi-boot-config.txt"
+    dest: /boot/firmware/config.txt
+    owner: root
+    group: root
+    mode: 0755
+
+- name: install rpi tools, eeprom, and kernel meta package
+  apt:
+    update_cache: true
+    force_apt_get: true
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - linux-image-raspi
+    - linux-tools-raspi
+    - rpi-eeprom
+
+- name: change eeprom release
+  lineinfile:
+    path: /etc/default/rpi-eeprom-update
+    regexp: '((^FIRMWARE_RELEASE_STATUS=)(?!"latest"))'
+    line: '\1"latest"'
+    backrefs: yes
+    state: present
+
+- name: reboot is necessary
+  reboot:
+    msg: "the system is going down"
+    connect_timeout: 5
+    reboot_timeout: 600
+    pre_reboot_delay: 0
+    post_reboot_delay: 30
+    test_command: uptime
+  register: reboot_was_necessary
+  when: cgroup_enabled is changed

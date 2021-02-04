@@ -1,0 +1,22 @@
+---
+- name: install apt prerequisites for https
+  apt:
+    update_cache: true
+    force_apt_get: true
+    name: "{{ item }}"
+    state: latest
+  with_items:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg-agent
+      - software-properties-common
+
+- name: remove useless packages from cache
+  apt:
+    autoclean: yes
+
+- name: remove dependencies that are no longer used
+  apt:
+    autoremove: yes
+    purge: true

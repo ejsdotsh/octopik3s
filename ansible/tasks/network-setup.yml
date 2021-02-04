@@ -1,0 +1,14 @@
+---
+- name: configure /etc/hosts and hostname
+  template:
+    src: "templates/{{ item.template }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+  with_items:
+    - { template: hostname.j2, dest: /etc/hostname }
+    - { template: hosts.j2, dest: /etc/hosts }
+  notify:
+    - update hostname
+
+- import_tasks: tasks/iptables-legacy.yml
+  when: group_names == 'pik3s'

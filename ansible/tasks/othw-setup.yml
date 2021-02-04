@@ -1,0 +1,34 @@
+# playbook to install needed packages for completing 'kubernetes the hard way'
+# locally using rasberry pi
+---
+- name: install load-balancer components
+  apt:
+    name: "{{ item }}"
+    update_cache: true
+    state: latest
+    force_apt_get: true
+  with_items:
+    - keepalived
+    - haproxy
+  when: pik3s_controller and not pik3s_worker
+
+- name: install worker components
+  apt:
+    name: "{{ item }}"
+    update_cache: true
+    state: latest
+    force_apt_get: true
+  with_items:
+    - socat
+    - conntrack
+    - ipset
+  when: pik3s_worker and not pik3s_controller
+
+- name: remove useless packages from cache
+  apt:
+    autoclean: yes
+
+- name: remove dependencies that are no longer used
+  apt:
+    autoremove: yes
+    purge: true

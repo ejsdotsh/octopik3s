@@ -1,0 +1,18 @@
+[pi4]
+max_framebuffers=2
+
+[all]
+arm_64bit=1
+kernel=vmlinuz
+cmdline=cmdline.txt
+initramfs initrd.img followkernel
+
+# disable the audio output, enable I2C and SPI interfaces on the GPIO header
+dtparam=audio=off
+dtparam=i2c_arm=on
+dtparam=spi=on
+# disable wifi and bluetooth
+dtoverlay=disable-wifi
+dtoverlay=disable-bt
+# enable the serial pins
+enable_uart=1

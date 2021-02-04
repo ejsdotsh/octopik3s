@@ -1,0 +1,32 @@
+---
+- name: remove unwanted packages
+  apt:
+    name: "{{ item }}"
+    state: absent
+    purge: true
+    force_apt_get: true
+  with_items:
+    - alsa-topology-conf
+    - alsa-ucm-conf
+    - bolt
+    - eatmydata
+    - fuse
+    - nano
+    - ntfs-3g
+    - open-iscsi
+    - pastebinit
+    - plymouth
+    - plymouth-theme-ubuntu-text
+    - run-one
+    - snapd
+    - telnet
+  when: "'pik3s' in group_names"
+
+- name: remove useless packages from cache
+  apt:
+    autoclean: yes
+
+- name: remove dependencies that are no longer used
+  apt:
+    autoremove: yes
+    purge: true

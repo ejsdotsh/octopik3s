@@ -1,0 +1,35 @@
+---
+- hosts: pik3s
+  become: true
+  gather_facts: no
+  strategy: free
+
+  tasks:
+    - import_tasks: tasks/add-admin.yml
+      vars:
+        ansible_user: ubuntu
+        ansible_password: temporary
+      tags: admin
+    - import_tasks: tasks/apt-setup.yml
+      tags:
+        - apt
+        - apt_setup
+    - import_tasks: tasks/remove-unwanted.yml
+      tags:
+        - apt
+        - apt_remove
+    - import_tasks: tasks/pi-hardware.yml
+      tags: cgroup
+    - import_tasks: tasks/dist-upgrade.yml
+      tags:
+        - apt
+        - apt_upgrade
+    - import_tasks: tasks/network-setup.yml
+      tags: network
+    - import_tasks: tasks/othw-setup.yml
+      tags: k8s
+
+  handlers:
+    - name: update hostname
+      hostname:
+        name: "{{ inventory_hostname }}"

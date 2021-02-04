@@ -40,7 +40,7 @@ what started as a budget build, turned into something...a lot more expensive.
 
 ### software
 
-when i started this project, my choices for a 64-bit o/s for arm64 were ubuntu and fedora; i prefer debian-based distros, so i downloaded the [image](https://ubuntu.com/download/raspberry-pi).
+when i started this project, my choices for a 64-bit o/s for arm64 were ubuntu and fedora; i prefer debian-based distros, so i downloaded the [ubuntu image](https://ubuntu.com/download/raspberry-pi).
 
 Rancher's [K3s](https://rancher.com/docs/k3s/latest/en/) was chosen for being a lightweight, fully compliant [Kubernetes](https://rancher.com/docs/k3s/latest/en/) distribution.
 

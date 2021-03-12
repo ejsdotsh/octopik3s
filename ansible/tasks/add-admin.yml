@@ -1,8 +1,8 @@
-# creates 'annar' user and copies key to ~/.ssh/authorized_hosts
+# creates 'admin' user and copies key to ~/.ssh/authorized_hosts
 ---
 - name: add user
   user:
-    name: admin
+    name: superpi
     state: present
     password_lock: yes
     comment: ''
@@ -10,18 +10,18 @@
 
 - name: create .ssh directory
   file:
-    path: /home/annar/.ssh
-    owner: annar
-    group: annar
+    path: /home/superpi/.ssh
+    owner: superpi
+    group: superpi
     mode: '0700'
     state: directory
 
 - name: copy ssh key
   copy:
-    src: ../keys/admin_id_ed25519.pub
-    dest: /home/admin/.ssh/authorized_keys
-    owner: annar
-    group: annar
+    src: ../keys/superpi_id_ed25519.pub
+    dest: /home/superpi/.ssh/authorized_keys
+    owner: superpi
+    group: superpi
     mode: '0644'
 
 - name: add to sudoers
@@ -29,5 +29,5 @@
     path: /etc/sudoers
     state: present
     regexp: '^%admin .*'
-    line: '%admin   ALL=(ALL:ALL)   NOPASSWD:ALL'
+    line: '%superpi   ALL=(ALL:ALL)   NOPASSWD:ALL'
     validate: /usr/sbin/visudo -cf %s

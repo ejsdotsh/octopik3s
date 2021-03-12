@@ -1,6 +1,8 @@
 # installing ubuntu server 20.10 on raspberry pi
 
-`raspberry pik3s` or `rpik3s` is what i call each of the pis in my k3s cluster [octopik3s](https://github.com/joshuaejs/othw). this documents the manual steps for installing ubuntu
+`raspberry pik3s` or `pik3s` is the portmanteau by which i refer to each of the pis running kubernetes, whether that is k8s or k3s.
+
+this documents the steps for installing ubuntu on the pi, upgrading firmware and bootloader, and then booting from usb.
 
 ## Windows
 
@@ -10,9 +12,9 @@
 - 7unzip the file
 - write img to sdcard
   - rufus will format
-  - ~~touch `/boot/ssh`~~
+  - ~~touch `/boot/ssh`~~ ssh is *finally* enabled by default
   - eject the card
-- format usb3 drive
+- ~~format usb3 drive~~
 
 ## assembly
 
@@ -20,6 +22,8 @@
 - poe hat
 - sd card (for initial install and firmware/eeprom upgrades)
 - usb3 drive
+
+PICTURES GO HERE
 
 ## initial setup
 
@@ -39,10 +43,10 @@ ubuntu@ubuntu:~$ sudo reboot
 
 ### update eeprom
 
-```txt
-sudo apt-get update && sudo apt-get install linux-image-raspi linux-tools-raspi rpi-eeprom
+install kernel and eeprom update tool
 
-sudo rpi-eeprom-update
+```txt
+sudo apt-get update && sudo apt-get install -y linux-image-raspi linux-tools-raspi rpi-eeprom
 ```
 
 change rpi-eeprom's release channel
@@ -51,11 +55,16 @@ change rpi-eeprom's release channel
 
 change `critical` or `default` to `latest`
 
-`FIRMWARE_RELEASE_STATUS="latest"`
+```txt
+FIRMWARE_RELEASE_STATUS="latest"
+BOOTFS=/boot/firmware
+VCMAILBOX=/usr/bin/vcmailbox
+```
 
 execute `sudo rpi-eeprom-update` and then `sudo rpi-eeprom-update -a` and reboot
 
 verify the update
+> as of 4 march 2021, the current or `latest` release is `000138a1` from december 2020
 
 ```txt
 ubuntu@ubuntu:~$ sudo rpi-eeprom-update
@@ -72,12 +81,24 @@ CURRENT: 000138a1
 
 ### update bootloader
 
+view boot config
+
+```txt
+$ sudo rpi-eeprom-config
+BOOT_UART=0
+WAKE_ON_GPIO=0
+POWER_OFF_ON_HALT=0
+ENABLE_SELF_UPDATE=1
+DISABLE_HDMI=0
+
+```
+
 update boot config
 
 ```txt
 cat > bootconf.txt <<EOF
 BOOT_UART=0
-WAKE_ON_GPIO=1
+WAKE_ON_GPIO=0
 POWER_OFF_ON_HALT=1
 ENABLE_SELF_UPDATE=1
 DISABLE_HDMI=1
@@ -85,7 +106,7 @@ BOOT_ORDER=0xf41
 EOF
 ```
 
-as of 2 february 2021, the current `latest` release is from december
+> using the current release from december
 
 ```sh
 rpi-eeprom-config --out pieeprom-new.bin --config bootconf.txt /lib/firmware/raspberrypi/bootloader/latest/pieeprom-2020-12-11.bin
@@ -96,9 +117,11 @@ sudo reboot
 
 ## use USB instead of sdcard
 
-use rufus to copy the image to each usb3 drive. after using tmux to change the ubuntu user's password, the updates and preparatory configuration are done via ansible playbook.
+use rufus to copy the image to each usb3 drive. after using tmux to change the ubuntu user's password, the updates and preparatory configuration are done via ansible [playbook](./ansible/rpi-builder.yml).
 
 ## references
 
+- raspberrypi 4 [boot eeprom](https://www.raspberrypi.org/documentation/hardware/raspberrypi/booteeprom.md)
+- raspberrypi 4 [bootloader configuration](https://www.raspberrypi.org/documentation/hardware/raspberrypi/bcm2711_bootloader_config.md)
 - [rpi4 firmware recovery and update](https://jamesachambers.com/raspberry-pi-4-bootloader-firmware-updating-recovery-guide/)
 - ubuntu guide [usb boot](https://ubuntu.com/tutorials/how-to-install-ubuntu-desktop-on-raspberry-pi-4#4-optional-usb-boot)

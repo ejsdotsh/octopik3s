@@ -26,8 +26,7 @@
         - apt_upgrade
     - import_tasks: tasks/network-setup.yml
       tags: network
-    - import_tasks: tasks/othw-setup.yml
-      tags: k8s
+    # moving all kubernetes-related tasks to their own playbook/roles
 
   handlers:
     - name: update hostname

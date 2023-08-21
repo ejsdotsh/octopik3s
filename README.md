@@ -1,23 +1,17 @@
-# raspberry pik3s
+# octopik3s
+
+*renaming from raspberrypik3s*
 
 ## overview
 
-with the announcement of the RaspberryPi-4B, i decided that it would be an *inexpensive* and fun way to learn Kubernetes by building a ~~four~~eight node cluster, with Rancher's [k3s](https://k3s.io/), hence *raspberry pik3s* or *pik3s*. [octopik3s.io](https://octopik3s.io) was registered as a place to show graphs, logs, workloads, and whatnot: it will run on the cluster, so it might not be available. static site content will eventually live in another repo...
+with the announcement of the RaspberryPi-4B, i decided that it would be an *inexpensive* and fun way to learn Kubernetes by building a ~~four~~eight node cluster, with Rancher's [k3s](https://k3s.io/), hence *[octopik3s](https://octopik3s.io)*  (the website is currently down, however), or *pik3s*. 
 
 ### goals
 
 - learn RaspberryPi
-- learn some systems/hardware C programming
 - learn Kubernetes
-- create a home 'cluster', automate it, and
-  - learn Terraform and Go
-  - improve Python and Ansible
-- create pretty graphs with Zabbix, Promethues, Netauto, and Grafana
-- run [folding@home](https://foldingathome.org/)
--
--
--
-- profit?
+- fully automated CI/CD for cluster and for website
+- create pretty graphs
 
 ### hardware
 
@@ -41,14 +35,12 @@ what started as a budget build, turned into something...a lot more expensive.
 
 ### software
 
-when i started this project, my choices for a 64-bit o/s for arm64 were ubuntu and fedora; i prefer debian-based distros, so i downloaded the [ubuntu image](https://ubuntu.com/download/raspberry-pi).
+when i started this project, my choices for a 64-bit o/s for arm64 were ubuntu and fedora; i prefer debian-based distros, [ubuntu image](https://ubuntu.com/download/raspberry-pi).
 
 Rancher's [K3s](https://rancher.com/docs/k3s/latest/en/) was chosen for being a lightweight, fully compliant [Kubernetes](https://rancher.com/docs/k3s/latest/en/) distribution.
-
-etcd and calico were chosen because of the cross-over with work. getting well ahead of myself, i will likely also use (something built on) envoy proxy.
 
 - [Ubuntu Server](https://ubuntu.com/download/raspberry-pi)
 - Lightweight Kubernetes [k3s](https://k3s.io/)
 - [etcd](https://etcd.io/)
-- *maybeprobably* [Calico](https://www.projectcalico.org/)
-- Envoy? Istio?
+- [cillium.io](https://cilium.io/) for CNI
+  - [installation](https://docs.cilium.io/en/stable/installation/k3s/) on k3s
